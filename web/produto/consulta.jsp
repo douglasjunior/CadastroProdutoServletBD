@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <%@include file="/WEB-INF/includes/header.jsp" %>
         <title>Consulta de Produtos</title>
     </head>
     <body>
@@ -20,6 +20,13 @@
             Descrição: <input type="text" name="descricao" value="" />
             <input type="submit" value="Consultar" /> <br /><br />
         </form>
+
+        <% if (mensagemErro != null) {%>
+        <br />
+        <%-- aqui criamos uma "class" em CSS para utilizar em todas as nossas mensagens de erro --%>
+        <p class="mensagemErro"><%=mensagemErro%></p> 
+        <br />
+        <% } %>
 
         <%
             if (produtos != null && !produtos.isEmpty()) {

@@ -57,11 +57,17 @@ public class ProdutoDAO {
                 ConversorUtil.stringParaDate(data));
     }
 
+    /**
+     * Consulta os produtos no banco de dados, por descrição, utilizando LIKE.
+     *
+     * @param descricaoParam
+     * @return
+     * @throws SQLException
+     */
     public List<Produto> consultarPorDescricao(String descricaoParam) throws SQLException {
         List<Produto> produtos = new ArrayList<Produto>();
         if (descricaoParam != null && !descricaoParam.isEmpty()) {
-            PreparedStatement ps
-                    = conn.prepareStatement("SELECT * FROM produto WHERE descricao LIKE ?");
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM produto WHERE descricao LIKE ?");
             ps.setString(1, "%" + descricaoParam + "%");
             ResultSet resultado = ps.executeQuery();
             while (resultado.next()) {
@@ -73,12 +79,18 @@ public class ProdutoDAO {
         return produtos;
     }
 
+    /**
+     * Consulta um produto no banco de dados utilizando o código.
+     *
+     * @param codigoParam
+     * @return
+     * @throws SQLException
+     */
     public Produto consultarPorCodigo(String codigoParam) throws SQLException {
         Produto produto = null;
         if (codigoParam != null && !codigoParam.isEmpty()) {
             int codigo = ConversorUtil.stringParaInteger(codigoParam);
-            PreparedStatement ps
-                    = conn.prepareStatement("SELECT * FROM produto WHERE codigo = ?");
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM produto WHERE codigo = ?");
             ps.setInt(1, codigo);
             ResultSet resultado = ps.executeQuery();
             if (resultado.next()) {
@@ -89,6 +101,13 @@ public class ProdutoDAO {
         return produto;
     }
 
+    /**
+     * Monta o objeto Produto a partir do ResultSet.
+     *
+     * @param resultado
+     * @return
+     * @throws SQLException
+     */
     private Produto montarProduto(ResultSet resultado) throws SQLException {
         return new Produto(resultado.getInt("codigo"),
                 resultado.getString("descricao"),
@@ -96,5 +115,26 @@ public class ProdutoDAO {
                 resultado.getDouble("valor"),
                 resultado.getString("nome_fornecedor"),
                 resultado.getDate("ultima_compra"));
+    }
+
+    /**
+     * Faz um Update nos dados do Produto
+     *
+     * @param produto
+     * @throws java.sql.SQLException
+     */
+    public void alterar(Produto produto) throws SQLException {
+        PreparedStatement ps = conn.prepareStatement(
+                "UPDATE produto SET descricao = ?, valor = ?, quantidade = ?, nome_fornecedor = ?, ultima_compra = ? "
+                + " WHERE codigo = ?");
+        ps.setString(1, produto.getDescricao());
+        ps.setDouble(2, produto.getValor());
+        ps.setDouble(3, produto.getQuantidade());
+        ps.setString(4, produto.getFornecedor());
+        ps.setDate(5, ConversorUtil.dateParaSQLDate(produto.getUltimaCompra()));
+        // temos que passar também o código que será utilizado no WHERE
+        ps.setInt(6, produto.getCodigo());
+        ps.execute();
+        ps.close();
     }
 }

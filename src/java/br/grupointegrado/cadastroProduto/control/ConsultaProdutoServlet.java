@@ -24,8 +24,9 @@ public class ConsultaProdutoServlet extends HttpServlet {
             String mensagemErro = "Não foi possível realizar a consulta de produtos, tente novamente.";
             req.setAttribute("mensagem_erro", mensagemErro);
         }
-        req.getRequestDispatcher("/produto/consulta.jsp")
-                .forward(req, resp);
+        String mensagemErro = "Não foi possível realizar a consulta de produtos, tente novamente.";
+        req.setAttribute("mensagem_erro", mensagemErro);
+        req.getRequestDispatcher("/produto/consulta.jsp").forward(req, resp);
     }
 
 }

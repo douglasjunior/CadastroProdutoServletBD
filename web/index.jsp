@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <%@include file="/WEB-INF/includes/header.jsp" %>
         <title>Sistema de Produtos</title>
     </head>
     <body>
