@@ -1,11 +1,12 @@
 package br.grupointegrado.cadastroProduto.model;
 
+import br.grupointegrado.cadastroProduto.util.ConversorUtil;
 import java.util.Date;
 
 public class Produto {
 
     private int codigo;
-    private String decricao;
+    private String descricao;
     private double quantidade;
     private double valor;
     private String fornecedor;
@@ -15,9 +16,9 @@ public class Produto {
 
     }
 
-    public Produto(int codigo, String decricao, double quantidade, double valor, String fornecedor, Date ultimaCompra) {
+    public Produto(int codigo, String descricao, double quantidade, double valor, String fornecedor, Date ultimaCompra) {
         this.codigo = codigo;
-        this.decricao = decricao;
+        this.descricao = descricao;
         this.quantidade = quantidade;
         this.valor = valor;
         this.fornecedor = fornecedor;
@@ -32,12 +33,12 @@ public class Produto {
         this.codigo = codigo;
     }
 
-    public String getDecricao() {
-        return decricao;
+    public String getDescricao() {
+        return descricao;
     }
 
-    public void setDecricao(String decricao) {
-        this.decricao = decricao;
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
     public double getQuantidade() {
@@ -66,6 +67,10 @@ public class Produto {
 
     public Date getUltimaCompra() {
         return ultimaCompra;
+    }
+
+    public String getUltimaCompraString() {
+        return ConversorUtil.dateParaString(ultimaCompra);
     }
 
     public void setUltimaCompra(Date ultimaCompra) {

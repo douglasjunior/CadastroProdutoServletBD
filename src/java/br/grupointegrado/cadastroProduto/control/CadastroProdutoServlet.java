@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -25,39 +27,14 @@ public class CadastroProdutoServlet extends HttpServlet {
             + "  `ultima_compra` DATE NULL,\n"
             + "  PRIMARY KEY (`codigo`));";
 
-    /**
-     * Cria uma conexão JDBC
-     * @return
-     * @throws ClassNotFoundException
-     * @throws SQLException 
-     */
-    private Connection abrirConexao() throws ClassNotFoundException, SQLException {
-        Class.forName("com.mysql.jdbc.Driver");
-        String url = "jdbc:mysql://localhost:3306/produtos";
-        return DriverManager.getConnection(url, "root", "root");
-    }
-
-    /**
-     * Encerra uma conexão JDBC
-     * @param conn 
-     */
-    private void fecharConexao(Connection conn) {
-        try {
-            conn.close();
-        } catch (Exception ex) {
-        }
-    }
-
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Connection conn = null;
+        /*
+         Crie um método no DAO para facilitar a recuperação dos parâmetros
+         */
+        Produto produto = ProdutoDAO.getProdutoParametros(req);
         try {
-            conn = abrirConexao();
-
-            /*
-             Crie um método no DAO para facilitar a recuperação dos parâmetros
-             */
-            Produto produto = ProdutoDAO.getProdutoParametros(req);
+            Connection conn = (Connection) req.getAttribute("conexao");
 
             /*
              Se o código é ZERO, então devemos Inserir o Produto, 
@@ -68,18 +45,18 @@ public class CadastroProdutoServlet extends HttpServlet {
             } else {
                 alterarProduto(conn, produto);
             }
-            
+
             /*
              Após executar a operação, redireciona para a página de consulta 
              */
             resp.sendRedirect("/CadastroProdutos/produto/consulta.jsp");
         } catch (Exception ex) {
-            throw new RuntimeException(ex);
-        } finally {
-            /*
-            Utilizando o FINALLY garantimos que a conexão sempre será fechada
-            */
-            fecharConexao(conn);
+            ex.printStackTrace();
+            String mensagemErro = "Não foi possível salvar este produto, tente novamente.";
+            req.setAttribute("mensagem_erro", mensagemErro);
+            req.setAttribute("produto", produto);
+            req.getRequestDispatcher("/produto/cadastro.jsp")
+                    .forward(req, resp);
         }
     }
 
@@ -90,4 +67,20 @@ public class CadastroProdutoServlet extends HttpServlet {
     private void incluirProduto(Connection conn, Produto produto) throws SQLException {
         new ProdutoDAO(conn).inserir(produto);
     }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        try {
+            Connection conn = (Connection) req.getAttribute("conexao");
+            String codigoParam = req.getParameter("codigo");
+            Produto produto = new ProdutoDAO(conn).consultarPorCodigo(codigoParam);
+            req.setAttribute("produto", produto);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            String mensagemErro = "Não foi possível alterar este produto, tente novamente.";
+            req.setAttribute("mensagem_erro", mensagemErro);
+        }
+        req.getRequestDispatcher("/produto/cadastro.jsp").forward(req, resp);
+    }
+
 }
