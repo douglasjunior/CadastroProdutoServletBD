@@ -137,4 +137,18 @@ public class ProdutoDAO {
         ps.execute();
         ps.close();
     }
+
+    /**
+     * Excluir um produto do banco de dados a partir do códigoF
+     *
+     * @param codigoParam
+     * @throws SQLException
+     */
+    public void excluir(String codigoParam) throws SQLException {
+        PreparedStatement ps = conn.prepareStatement(
+                "DELETE FROM produto WHERE codigo = ?");
+        ps.setInt(1, ConversorUtil.stringParaInteger(codigoParam));
+        ps.execute();
+        ps.close();
+    }
 }

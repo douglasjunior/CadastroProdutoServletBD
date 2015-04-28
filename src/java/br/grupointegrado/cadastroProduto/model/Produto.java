@@ -13,7 +13,8 @@ public class Produto {
     private Date ultimaCompra;
 
     public Produto() {
-
+        descricao = "";
+        fornecedor = "";
     }
 
     public Produto(int codigo, String descricao, double quantidade, double valor, String fornecedor, Date ultimaCompra) {

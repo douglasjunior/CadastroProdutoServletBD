@@ -10,12 +10,22 @@
     <head>
         <%@include file="/WEB-INF/includes/header.jsp" %>
         <title>Consulta de Produtos</title>
+        <script type="text/javascript">
+            function excluirProduto(codigo) {
+                var result = confirm("Deseja excluir o produto " + codigo + " ?");
+                if (result) {
+                    window.location =
+                            "/CadastroProdutos/ConsultaProdutoServlet?" +
+                            "delete=true&codigo=" + codigo;
+                }
+            }
+        </script>
     </head>
     <body>
         <%@include file="/WEB-INF/includes/menu.jsp" %>
 
         <br />
-        
+
         <form method="GET" action="/CadastroProdutos/ConsultaProdutoServlet" >
             Descrição: <input type="text" name="descricao" value="" />
             <input type="submit" value="Consultar" /> <br /><br />
@@ -49,7 +59,8 @@
                 <td><%=produto.getValor()%></td>
                 <td><%=produto.getFornecedor()%></td>
                 <td><%=produto.getUltimaCompraString()%></td>
-                <td><a href="/CadastroProdutos/CadastroProdutoServlet?codigo=<%=produto.getCodigo()%>" >Alterar</a></td>
+                <td><a href="/CadastroProdutos/CadastroProdutoServlet?codigo=<%=produto.getCodigo()%>" >Alterar</a>
+                    <a href="#" onclick="excluirProduto(<%=produto.getCodigo()%>)" >Excluir</a></td>
             </tr>
             <% } %>
         </table>
