@@ -1,43 +1,40 @@
-package br.grupointegrado.cadastroProduto.model;
+package br.grupointegrado.cadastroProduto.modelo;
 
 import java.util.Date;
 
 public class Produto {
 
-    private int codigo;
-    private String decricao;
+    private int id;
+    private String descricao;
     private double quantidade;
     private double valor;
     private String fornecedor;
     private Date ultimaCompra;
 
-    public Produto() {
-
-    }
-
-    public Produto(int codigo, String decricao, double quantidade, double valor, String fornecedor, Date ultimaCompra) {
-        this.codigo = codigo;
-        this.decricao = decricao;
+    public Produto(int id, String descricao, double quantidade, double valor,
+            String fornecedor, Date ultimaCompra) {
+        this.id = id;
+        this.descricao = descricao;
         this.quantidade = quantidade;
         this.valor = valor;
         this.fornecedor = fornecedor;
         this.ultimaCompra = ultimaCompra;
     }
 
-    public int getCodigo() {
-        return codigo;
+    public int getId() {
+        return id;
     }
 
-    public void setCodigo(int codigo) {
-        this.codigo = codigo;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public String getDecricao() {
-        return decricao;
+    public String getDescricao() {
+        return descricao;
     }
 
-    public void setDecricao(String decricao) {
-        this.decricao = decricao;
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
     public double getQuantidade() {
@@ -74,8 +71,8 @@ public class Produto {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 43 * hash + this.codigo;
+        int hash = 5;
+        hash = 67 * hash + this.id;
         return hash;
     }
 
@@ -88,9 +85,10 @@ public class Produto {
             return false;
         }
         final Produto other = (Produto) obj;
-        if (this.codigo != other.codigo) {
+        if (this.id != other.id) {
             return false;
         }
         return true;
     }
+    
 }
