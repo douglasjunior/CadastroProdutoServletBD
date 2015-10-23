@@ -1,7 +1,7 @@
 package br.grupointegrado.cadastroProduto.modelo;
 
+import br.grupointegrado.cadastroProduto.util.Util;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
@@ -35,7 +35,7 @@ public class ProdutoDAO {
         st.setDouble(2, produto.getQuantidade());
         st.setDouble(3, produto.getValor());
         st.setString(4, produto.getFornecedor());
-        st.setDate(5, new Date(produto.getUltimaCompra().getTime()));
+        st.setDate(5, Util.dateParaSQL(produto.getUltimaCompra()));
         
         st.execute();
         st.close();

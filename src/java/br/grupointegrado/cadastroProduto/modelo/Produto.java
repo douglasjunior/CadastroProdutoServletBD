@@ -1,5 +1,6 @@
 package br.grupointegrado.cadastroProduto.modelo;
 
+import br.grupointegrado.cadastroProduto.util.Util;
 import java.util.Date;
 
 public class Produto {
@@ -63,6 +64,10 @@ public class Produto {
 
     public Date getUltimaCompra() {
         return ultimaCompra;
+    }
+    
+    public String getUltimaCompraString(){
+        return Util.dataParaString(getUltimaCompra());
     }
 
     public void setUltimaCompra(Date ultimaCompra) {

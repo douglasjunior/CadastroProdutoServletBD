@@ -19,6 +19,13 @@ public class ConexaoFiltro implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+        /*
+         Alguns servidores como o TOMCAT, vem por padrão com codificação ISO-8859-1, sendo assim é necessário mudar essa configuração para UTF-8. Caso contrário teremos problemas com acentuação nos parâmetros.
+         Para evitar de ter que mudar a configuração no Servidor, podemos alterar o Encoding do Request e do Response em todas as requisições.
+         Neste caso, podemos aproveitar o filtro ConexaoFilter para tal ação.
+         */
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
 
         Connection conexao = null;
         try {

@@ -24,9 +24,14 @@
         <servlet-name>CadastrarProduto</servlet-name>
         <url-pattern>/CadastrarProduto</url-pattern>
     </servlet-mapping>
+    
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
+    
+    <welcome-file-list>
+        <welcome-file>ConsultaProduto</welcome-file>
+    </welcome-file-list>
 </web-app>

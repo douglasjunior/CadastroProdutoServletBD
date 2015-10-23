@@ -7,8 +7,6 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -39,8 +37,17 @@ public class CadastrarProduto extends HttpServlet {
         ProdutoDAO dao = new ProdutoDAO(conexao);
         try {
             dao.inserir(produto);
+            // se a inserção ocorrer com sucesso, encaminha 
+            // para a página de consulta
+            resp.sendRedirect("ConsultaProduto");
         } catch (SQLException ex) {
-            throw new RuntimeException(ex);
+            ex.printStackTrace();
+            // se ocorrer algum erro, mantem o usuário na página de
+            // cadastro e mostra mensagem de erro
+            String mensagemErro = "Não foi possível inserir o produto no banco de dados.";
+            req.setAttribute("mensagem_erro", mensagemErro);
+            req.setAttribute("produto", produto);
+            req.getRequestDispatcher("/WEB-INF/cadastrarProduto.jsp").forward(req, resp);
         }
     }
         

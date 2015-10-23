@@ -58,4 +58,21 @@ public class Util {
             return 0;
         }
     }
+
+    /**
+     * Converte a data do tipo java.util.Date para java.sql.Date
+     *
+     * @param data
+     * @return
+     */
+    public static java.sql.Date dateParaSQL(Date data) {
+        try {
+            long milisegundos = data.getTime();
+            java.sql.Date sqlDate = new java.sql.Date(milisegundos);
+            return sqlDate;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
 }
