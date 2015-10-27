@@ -22,6 +22,9 @@ public class Produto {
         this.ultimaCompra = ultimaCompra;
     }
 
+    public Produto() {
+    }
+
     public int getId() {
         return id;
     }
